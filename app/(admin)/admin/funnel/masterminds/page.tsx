@@ -15,12 +15,12 @@ async function getMastermindsFunnel() {
 
 async function getMastermindsGateConv() {
   const supabase = await getServerSupabase();
-  const { data } = await supabase
+  const { data } = await (supabase as any)
     .from("v_gate_conversion")
     .select("*")
     .like("origin", "masterminds:%")
     .order("views", { ascending: false });
-  return data ?? [];
+  return (data ?? []) as Array<{ origin: string | null; views: number; yes_count: number; no_count: number }>;
 }
 
 export default async function MastermindsFunnelPage() {

@@ -1,6 +1,9 @@
 // lib/admin/overview-queries.ts
 import { getServerSupabase } from "@/lib/supabase/server";
 
+type TopExcursionRow = { excursion_id: string; title: string; clicks: number };
+type TopConceptRow = { id: string; title: string; borda_score: number };
+
 export async function getOverviewStats() {
   const supabase = await getServerSupabase();
   const now = new Date();
@@ -23,15 +26,15 @@ export async function getOverviewStats() {
     counts(startOfDay, "tourist"), counts(startOfDay, "masterminds"), counts(startOfDay, "real_estate"),
   ]);
 
-  const { data: topExcursions } = await supabase
+  const { data: topExcursions } = await (supabase as any)
     .from("v_top_excursions_30d").select("*").limit(5);
-  const { data: topConcepts } = await supabase
+  const { data: topConcepts } = await (supabase as any)
     .from("v_future_excursion_leaderboard").select("*").limit(5);
 
   return {
     leadsToday, leadsWeek, leadsMonth,
     touristToday, mindsToday, realEstateToday,
-    topExcursions: topExcursions ?? [],
-    topConcepts: topConcepts ?? [],
+    topExcursions: (topExcursions ?? []) as TopExcursionRow[],
+    topConcepts: (topConcepts ?? []) as TopConceptRow[],
   };
 }
