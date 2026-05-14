@@ -27,7 +27,10 @@ export async function POST(req: NextRequest) {
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? null;
   const userAgent = req.headers.get("user-agent") ?? null;
 
-  const { error } = await supabase.from("events").insert({
+  // Phase B's stub types.ts uses Record<string,unknown> for Insert which causes
+  // a TS narrowing edge-case; cast to any per plan note.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await (supabase as any).from("events").insert({
     event_type: eventType,
     entity_type: (entityType as string) ?? null,
     entity_id: (entityId as string) ?? null,
