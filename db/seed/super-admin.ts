@@ -38,7 +38,8 @@ export async function seedSuperAdmin() {
         role: "super_admin",
         force_password_change: true,
         is_active: true,
-      },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } as any,
       { onConflict: "id" },
     );
   if (upsertErr) throw upsertErr;
