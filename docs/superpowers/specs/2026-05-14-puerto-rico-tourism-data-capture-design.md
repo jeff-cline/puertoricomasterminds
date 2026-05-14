@@ -898,7 +898,7 @@ v1 has on-page coupon download instead of email. Admin invites use copy-the-link
 ## 22. Open Questions for User (must resolve before or during build)
 
 1. **AI image gen credentials:** Which service (Runway / DALL-E / Midjourney / Leonardo)? Need API key when we reach the seed-data step.
-2. **Domain name:** Do you own one yet (e.g. `puertoricomasterminds.com`)? If yes, share it so I can configure Vercel DNS at launch.
+2. ~~**Domain name:** Do you own one yet (e.g. `puertoricomasterminds.com`)? If yes, share it so I can configure Vercel DNS at launch.~~ **RESOLVED:** Domain is `PuertoRicoMasterminds.com`. GitHub repo: https://github.com/jeff-cline/puertoricomasterminds. User has an external agent managing go-live on the server — our handoff is `git push` to that repo.
 3. **Expedia camref:** Should `data-camref="undefined"` be replaced with a real value? Verify with Expedia's affiliate dashboard before launch.
 4. **WhatsApp number** for the header phone CTA: do you want a real number (yours) or placeholder?
 5. **Founder/concierge persona** on the About page: real person you'll name, or fictional placeholder (e.g. "Meet Luis, your San Juan concierge")?
@@ -909,9 +909,8 @@ v1 has on-page coupon download instead of email. Admin invites use copy-the-link
 
 1. **Local dev:** `npm install` → `.env.local` with Supabase URL/anon key + Viator IDs → `npm run dev` on `localhost:3000`
 2. **Supabase project setup:** Create free Supabase project; run migrations from `db/migrations/`; run seed scripts.
-3. **Vercel deploy:** Connect repo to Vercel, configure env vars (Supabase URL, anon key, service role key, Viator IDs), deploy.
-4. **Live URL:** `<project>.vercel.app` available immediately.
-5. **Custom domain (when ready):** Add domain in Vercel dashboard, follow DNS instructions.
+3. **GitHub push:** Push to https://github.com/jeff-cline/puertoricomasterminds. **We do not deploy to Vercel.** The user has an external agent that manages go-live on the server — our handoff is the git push.
+4. **Domain:** `PuertoRicoMasterminds.com` — DNS + hosting handled by the user's go-live agent.
 
 ---
 
