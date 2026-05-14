@@ -18,10 +18,10 @@ export async function POST(req: NextRequest) {
 
   // Clear the force_password_change flag using service-role (RLS would otherwise require self-update policy)
   const admin = getServiceRoleSupabase();
-  await (admin
-    .from("users")
+  const usersTable = admin.from("users") as any;
+  await usersTable
     .update({ force_password_change: false, last_login_at: new Date().toISOString() })
-    .eq("id", user.id) as any);
+    .eq("id", user.id);
 
   return NextResponse.json({ ok: true });
 }
