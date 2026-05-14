@@ -1,6 +1,6 @@
 // tests/lib/leads/create-lead.test.ts
 import { describe, it, expect, vi } from "vitest";
-import { validateLeadInput } from "@/lib/leads/create-lead";
+import { validateLeadInput } from "@/lib/leads/validate";
 
 describe("validateLeadInput", () => {
   const good = { email: "a@b.co", first_name: "A", last_name: "B", funnel: "tourist" as const };

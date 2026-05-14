@@ -2,30 +2,7 @@
 "use server";
 import { getServerSupabase } from "@/lib/supabase/server";
 import { generateCouponCode } from "@/lib/coupon/generate-code";
-
-export type Funnel = "tourist" | "masterminds" | "real_estate";
-
-export interface LeadInput {
-  email: string;
-  first_name: string;
-  last_name: string;
-  phone?: string | null;
-  funnel: Funnel;
-  source_origin?: string;
-  session_id?: string;
-  consent_marketing?: boolean;
-  payload?: Record<string, unknown>;
-}
-
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-export function validateLeadInput(input: LeadInput): string | null {
-  if (!input.email || !EMAIL_RE.test(input.email)) return "valid email is required";
-  if (!input.first_name?.trim()) return "first name is required";
-  if (!input.last_name?.trim()) return "last name is required";
-  if (!["tourist", "masterminds", "real_estate"].includes(input.funnel)) return "invalid funnel";
-  return null;
-}
+import { validateLeadInput, type LeadInput } from "@/lib/leads/validate";
 
 export async function createLead(input: LeadInput): Promise<{ leadId: string; couponCode: string | null }> {
   const err = validateLeadInput(input);
