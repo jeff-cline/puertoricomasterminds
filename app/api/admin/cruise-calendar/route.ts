@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
 
   const supabase = await getServerSupabase();
   // Replace all rows for that date with the new selection
-  await supabase.from("daily_port_calls").delete().eq("call_date", call_date);
+  await (supabase as any).from("daily_port_calls").delete().eq("call_date", call_date);
 
   const rows = ships.map((shipName: string) => {
     const meta = SHIPS.find((s) => s.name === shipName);
@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
   }).filter(Boolean);
 
   if (rows.length === 0) return NextResponse.json({ ok: true });
-  const { error } = await supabase.from("daily_port_calls").insert(rows as Array<NonNullable<typeof rows[number]>>);
+  const { error } = await (supabase as any).from("daily_port_calls").insert(rows);
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json({ ok: true });
 }

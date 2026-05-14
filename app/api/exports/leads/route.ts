@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
   const q = sp.get("q");
 
   const supabase = await getServerSupabase();
-  let query = supabase.from("leads").select("*").order("created_at", { ascending: false });
+  let query = (supabase as any).from("leads").select("*").order("created_at", { ascending: false });
   if (funnel && funnel !== "all") query = query.eq("funnel", funnel);
   if (q) query = query.or(`email.ilike.%${q}%,first_name.ilike.%${q}%,last_name.ilike.%${q}%`);
 

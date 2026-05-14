@@ -13,8 +13,8 @@ export default async function CruiseCalendarPage({
 
   const supabase = await getServerSupabase();
   const { data } = await supabase
-    .from("daily_port_calls").select("*").eq("call_date", date);
-  const initialShips = (data ?? []).map((r) => r.ship_name);
+    .from("daily_port_calls").select("*").eq("call_date", date) as any;
+  const initialShips = ((data ?? []) as Array<{ ship_name: string }>).map((r) => r.ship_name);
 
   return (
     <div className="space-y-6">

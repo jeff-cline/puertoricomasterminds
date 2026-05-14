@@ -9,9 +9,14 @@ export default async function RealEstateLeadsPage() {
   if (!user) redirect("/admin/login");
   if (!can(user.role, "read:real_estate_leads")) redirect("/admin");
 
+  interface LeadRow {
+    id: string; created_at: string; first_name: string | null; last_name: string | null;
+    email: string; phone: string | null; payload: Record<string, unknown> | null;
+  }
+
   const supabase = await getServerSupabase();
-  const { data } = await supabase
-    .from("leads").select("*").eq("funnel", "real_estate").order("created_at", { ascending: false }).limit(500);
+  const { data } = await (supabase as any)
+    .from("leads").select("*").eq("funnel", "real_estate").order("created_at", { ascending: false }).limit(500) as { data: LeadRow[] | null };
 
   return (
     <div className="space-y-6">

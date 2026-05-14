@@ -41,7 +41,7 @@ export function LeadsTable({ rows, canSeePii, initialFunnel, initialQuery }: {
     <>
       <div className="flex flex-wrap gap-3">
         <Input placeholder="Search email or name" value={q} onChange={(e) => setQ(e.target.value)} className="max-w-sm" />
-        <Select value={funnel} onValueChange={setFunnel}>
+        <Select value={funnel} onValueChange={(v) => setFunnel(v ?? "all")}>
           <SelectTrigger className="w-48"><SelectValue /></SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All funnels</SelectItem>

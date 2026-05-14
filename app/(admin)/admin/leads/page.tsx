@@ -14,7 +14,7 @@ export default async function LeadsPage({
   const q = sp.q?.trim() ?? "";
 
   const supabase = await getServerSupabase();
-  let query = supabase.from("leads").select("*").order("created_at", { ascending: false }).limit(500);
+  let query = (supabase as any).from("leads").select("*").order("created_at", { ascending: false }).limit(500);
   if (funnel !== "all") query = query.eq("funnel", funnel);
   if (q) query = query.or(`email.ilike.%${q}%,first_name.ilike.%${q}%,last_name.ilike.%${q}%`);
 
