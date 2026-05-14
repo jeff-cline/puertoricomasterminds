@@ -16,4 +16,4 @@ Tourism data-capture + lead-gen platform for San Juan, PR. See `docs/superpowers
 
 ## Stack
 
-Next.js 15 (App Router) · TypeScript · Tailwind + shadcn/ui · Supabase · Vitest · Vercel.
+Next.js 16 (App Router) · TypeScript · Tailwind + shadcn/ui · Supabase · Vitest · Vercel.
