@@ -1,10 +1,10 @@
-// middleware.ts
+// proxy.ts
 import { NextRequest, NextResponse } from "next/server";
 import { createMiddlewareClient } from "@/lib/supabase/middleware-client";
 
 const PUBLIC_ADMIN_PATHS = ["/admin/login", "/admin/change-password"];
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
   if (!pathname.startsWith("/admin")) return NextResponse.next();
 
