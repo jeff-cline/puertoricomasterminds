@@ -1,6 +1,5 @@
 // components/public/header.tsx
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { TripAdvisorBadge } from "./tripadvisor-badge";
 
 const WHATSAPP_PHONE = process.env.NEXT_PUBLIC_WHATSAPP_PHONE ?? "";
@@ -32,9 +31,12 @@ export function Header() {
               WhatsApp
             </a>
           )}
-          <Button asChild className="bg-prm-coral hover:bg-prm-coral/90 text-white">
-            <Link href="/excursions">Book a Tour</Link>
-          </Button>
+          <Link
+            href="/excursions"
+            className="inline-flex items-center rounded-lg px-3 py-1.5 text-sm font-medium bg-prm-coral hover:bg-prm-coral/90 text-white transition-colors"
+          >
+            Book a Tour
+          </Link>
         </div>
       </div>
     </header>
