@@ -34,9 +34,17 @@ export async function createLead(input: LeadInput): Promise<{ leadId: string; co
     // swallow — cruise tagging is enrichment, never blocks lead capture
   }
 
-  const { data, error } = await (supabase as any)
+  // Generate the lead id client-side so we can return it WITHOUT chaining
+  // .select() after .insert(). PostgREST's post-insert SELECT (triggered by
+  // the `Prefer: return=representation` header supabase-js adds when you
+  // call .select()) is blocked by RLS for anon — surfaces as a confusing
+  // 42501 "row violates RLS" even though the INSERT itself was fine.
+  const leadId = crypto.randomUUID();
+
+  const { error } = await (supabase as any)
     .from("leads")
     .insert({
+      id: leadId,
       email: input.email.toLowerCase().trim(),
       first_name: input.first_name.trim(),
       last_name: input.last_name.trim(),
@@ -48,10 +56,8 @@ export async function createLead(input: LeadInput): Promise<{ leadId: string; co
       coupon_code: couponCode,
       payload: input.payload ?? {},
       ...cruiseFields,
-    })
-    .select("id, coupon_code")
-    .single();
+    });
 
   if (error) throw error;
-  return { leadId: data.id, couponCode: data.coupon_code };
+  return { leadId, couponCode };
 }
