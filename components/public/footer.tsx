@@ -64,10 +64,15 @@ export function Footer() {
             <div className="flex items-center gap-3 text-sm">
               <a
                 href={mailtoHref(JEFF_CONTACT)}
-                className="text-secondary-foreground/70 hover:text-white"
+                className="font-bold tracking-wide hover:brightness-110"
                 title="Email Jeff Cline directly"
+                style={{
+                  color: "#FF6A1F",
+                  textShadow:
+                    "-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0 0 2px #000",
+                }}
               >
-                Powered by <span className="font-semibold text-white">Jeff Cline</span>
+                Powered by Jeff Cline
               </a>
               <a
                 href="https://jeff-cline.com"
