@@ -21,6 +21,7 @@ import { CruisePaxPanel } from "@/components/admin/dashboard/cruise-pax-panel";
 import { TrendingExcursions } from "@/components/admin/dashboard/trending-excursions";
 import { IndustryStatsGrid } from "@/components/admin/dashboard/industry-stats-grid";
 import { ActivityFeed } from "@/components/admin/dashboard/activity-feed";
+import { LeaderboardPodium } from "@/components/admin/dashboard/leaderboard-podium";
 
 function SectionHeading({
   title,
@@ -87,7 +88,7 @@ export default async function AdminOverviewPage() {
 
   return (
     <div
-      className="space-y-10"
+      className="space-y-8"
       style={{
         background: "linear-gradient(180deg, #f8fafc 0%, #f0f4f8 100%)",
         minHeight: "100%",
@@ -101,6 +102,9 @@ export default async function AdminOverviewPage() {
         topExcursion={topExcursion}
         topBorda={topBorda}
       />
+
+      {/* ── Section 1b: Today's Leaderboard ────────────────────────── */}
+      <LeaderboardPodium comingSoon={comingSoon} trending={trending} />
 
       {/* ── Section 2: KPI Cards ───────────────────────────────────── */}
       <section>
@@ -145,8 +149,8 @@ export default async function AdminOverviewPage() {
       </section>
 
       {/* ── Sections 3-6 in main+sidebar layout ───────────────────── */}
-      <div className="grid gap-10 xl:grid-cols-[1fr_340px]">
-        <div className="space-y-10 min-w-0">
+      <div className="grid gap-8 xl:grid-cols-[1fr_340px]">
+        <div className="space-y-8 min-w-0">
           {/* ── Section 3: Conversion Funnel ─────────────────────── */}
           <section>
             <SectionHeading

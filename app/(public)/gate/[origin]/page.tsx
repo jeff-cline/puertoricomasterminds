@@ -7,10 +7,13 @@ import { campaignHandle } from "@/lib/affiliate/campaign";
 
 export default async function GatePage({
   params,
+  searchParams,
 }: {
   params: Promise<{ origin: string }>;
+  searchParams: Promise<{ via?: string }>;
 }) {
   const { origin: rawOrigin } = await params;
+  const { via } = await searchParams;
   const origin = decodeURIComponent(rawOrigin);
   const [kind, slug] = origin.split(":");
 
@@ -36,6 +39,7 @@ export default async function GatePage({
               funnel="tourist"
               noPathRedirectUrl={noPathRedirectUrl}
               yesPathHref="/survey"
+              via={via}
             />
           </div>
         </div>
@@ -74,6 +78,7 @@ export default async function GatePage({
             funnel="tourist"
             noPathRedirectUrl={noPathRedirectUrl}
             yesPathHref="/survey"
+            via={via}
           />
         </div>
       </div>

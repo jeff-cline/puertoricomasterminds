@@ -1,4 +1,5 @@
 // app/(public)/page.tsx
+import Link from "next/link";
 import { Hero } from "@/components/public/hero";
 import { ExcursionGrid } from "@/components/public/excursion-grid";
 import { listActiveExcursions, type ExcursionMode } from "@/lib/excursions/queries";
@@ -10,7 +11,8 @@ export default async function HomePage({
 }) {
   const sp = await searchParams;
   const mode: ExcursionMode = sp.mode === "multi_day" ? "multi_day" : "cruise_day";
-  const heroExcursions = await listActiveExcursions({ mode, heroOnly: true });
+  // Show top 20 active excursions (not just heroes) for the 4×5 grid
+  const excursions = await listActiveExcursions({ mode, limit: 20 });
 
   return (
     <>
@@ -28,7 +30,18 @@ export default async function HomePage({
             </p>
           </div>
         </div>
-        <ExcursionGrid excursions={heroExcursions} />
+
+        <ExcursionGrid excursions={excursions} showCouponBadges />
+
+        {/* See More CTA */}
+        <div className="mt-10 text-center">
+          <Link
+            href="/excursions"
+            className="inline-flex items-center gap-2 rounded-full border-2 border-prm-teal bg-white px-8 py-3 font-jakarta text-base font-semibold text-prm-teal shadow-sm transition hover:bg-prm-teal hover:text-white"
+          >
+            See all 70+ excursions →
+          </Link>
+        </div>
       </section>
     </>
   );

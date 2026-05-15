@@ -16,6 +16,8 @@ export interface GateFormProps {
   noPathRedirectUrl: string;
   /** "Yes" path inside the funnel — typically "/survey" or "/masterminds/survey". */
   yesPathHref: string;
+  /** Optional tracking param, e.g. "coupon-cta". Stored in lead payload.via. */
+  via?: string;
 }
 
 interface SubmitArgs {
@@ -26,6 +28,7 @@ interface SubmitArgs {
   origin: string;
   funnel: "tourist" | "masterminds";
   session_id: string;
+  via?: string;
 }
 
 async function submitGate(args: SubmitArgs): Promise<{ leadId: string; couponCode: string | null }> {
@@ -38,7 +41,7 @@ async function submitGate(args: SubmitArgs): Promise<{ leadId: string; couponCod
   return res.json();
 }
 
-export function GateForm({ origin, funnel, noPathRedirectUrl, yesPathHref }: GateFormProps) {
+export function GateForm({ origin, funnel, noPathRedirectUrl, yesPathHref, via }: GateFormProps) {
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -60,7 +63,7 @@ export function GateForm({ origin, funnel, noPathRedirectUrl, yesPathHref }: Gat
       try {
         const { leadId, couponCode } = await submitGate({
           decision, email, first_name: firstName, last_name: lastName,
-          origin, funnel, session_id,
+          origin, funnel, session_id, via,
         });
         await trackEvent({
           eventType: decision === "yes" ? "gate_yes" : "gate_no",

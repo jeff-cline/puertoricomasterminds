@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null);
   if (!body) return NextResponse.json({ error: "invalid body" }, { status: 400 });
 
-  const { decision, email, first_name, last_name, origin, funnel, session_id } = body;
+  const { decision, email, first_name, last_name, origin, funnel, session_id, via } = body;
 
   if (!["yes", "no"].includes(decision)) {
     return NextResponse.json({ error: "invalid decision" }, { status: 400 });
@@ -20,7 +20,10 @@ export async function POST(req: NextRequest) {
       funnel,
       source_origin: origin,
       session_id,
-      payload: { gate_decision: decision },
+      payload: {
+        gate_decision: decision,
+        ...(via ? { via } : {}),
+      },
     });
     return NextResponse.json({ leadId, couponCode });
   } catch (e) {

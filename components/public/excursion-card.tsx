@@ -1,6 +1,5 @@
 // components/public/excursion-card.tsx
 import Link from "next/link";
-import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 
 export interface ExcursionCardData {
@@ -30,39 +29,60 @@ function typeBadge(t: ExcursionCardData["type"]) {
   return { label: "Cruise or Stay", className: "bg-secondary text-white" };
 }
 
-export function ExcursionCard({ excursion }: { excursion: ExcursionCardData }) {
+export function ExcursionCard({
+  excursion,
+  showCouponBadge = false,
+}: {
+  excursion: ExcursionCardData;
+  showCouponBadge?: boolean;
+}) {
   const badge = typeBadge(excursion.type);
   return (
     <article className="group overflow-hidden rounded-xl border bg-card shadow-sm transition hover:shadow-md">
       <Link href={`/gate/excursions:${excursion.slug}`} className="block">
         <div className="relative aspect-[4/3] overflow-hidden">
-          <Image
+          {/* Use plain img for Unsplash thumbnails — avoids Next/Image domain config friction */}
+          <img
             src={excursion.image_url}
             alt={excursion.title}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            loading="lazy"
+            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
-          <Badge className={`absolute left-3 top-3 ${badge.className}`}>{badge.label}</Badge>
+          <Badge className={`absolute left-2 top-2 text-[10px] px-1.5 py-0.5 ${badge.className}`}>
+            {badge.label}
+          </Badge>
+
+          {/* Coupon CTA badge — every 8th card in the homepage grid */}
+          {showCouponBadge && (
+            <a
+              href={`/gate/excursions:${excursion.slug}?via=coupon-cta`}
+              onClick={(e) => e.stopPropagation()}
+              className="absolute right-2 top-2 z-10 max-w-[90px] rounded-full bg-prm-coral px-2 py-1 text-center text-[10px] font-bold leading-tight text-white shadow-md transition hover:bg-prm-coral/90"
+              aria-label="Free transportation coupon — claim"
+            >
+              🎁 Free transport
+              <br />coupon — claim
+            </a>
+          )}
         </div>
-        <div className="space-y-2 p-4">
-          <h3 className="line-clamp-2 font-jakarta text-lg font-semibold text-secondary">
+        <div className="space-y-1.5 p-3">
+          <h3 className="line-clamp-2 font-jakarta text-sm font-semibold text-secondary leading-snug">
             {excursion.title}
           </h3>
-          <p className="line-clamp-2 text-sm text-muted-foreground">
+          <p className="line-clamp-2 text-xs text-muted-foreground">
             {excursion.short_description}
           </p>
-          <div className="flex items-center justify-between pt-2">
-            <span className="text-sm text-secondary">
+          <div className="flex items-center justify-between pt-1">
+            <span className="text-xs text-secondary">
               {formatDuration(excursion.duration_min, excursion.duration_max)}
             </span>
-            <span className="font-semibold text-prm-coral">
+            <span className="text-sm font-semibold text-prm-coral">
               From ${excursion.price_from_usd}
             </span>
           </div>
         </div>
-        <div className="border-t bg-prm-offwhite px-4 py-3">
-          <span aria-label="Book this excursion" className="text-sm font-semibold text-prm-teal">
+        <div className="border-t bg-prm-offwhite px-3 py-2">
+          <span aria-label="Book this excursion" className="text-xs font-semibold text-prm-teal">
             Book →
           </span>
         </div>
