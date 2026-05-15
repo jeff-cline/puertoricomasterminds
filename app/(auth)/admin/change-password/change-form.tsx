@@ -60,7 +60,7 @@ export function ChangePasswordForm() {
         12+ chars, mix of upper/lower, a number, and a special character.
       </p>
       {err && <p className="text-sm text-destructive">{err}</p>}
-      <Button type="submit" disabled={pending} className="w-full bg-prm-coral hover:bg-prm-coral/90">
+      <Button type="submit" disabled={pending} className="w-full bg-prm-coral hover:bg-prm-coral/90 text-white">
         {pending ? "Saving…" : "Set new password"}
       </Button>
     </form>

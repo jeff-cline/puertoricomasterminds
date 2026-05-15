@@ -35,7 +35,7 @@ export function CruiseForm({ initialDate, initialShips }: { initialDate: string;
           <Label htmlFor="date">Date</Label>
           <Input id="date" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
         </div>
-        <Button onClick={save} disabled={pending} className="bg-prm-coral hover:bg-prm-coral/90">
+        <Button onClick={save} disabled={pending} className="bg-prm-coral hover:bg-prm-coral/90 text-white">
           {pending ? "Saving…" : `Save (${picked.length} ships)`}
         </Button>
       </div>

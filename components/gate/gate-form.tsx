@@ -103,7 +103,7 @@ export function GateForm({ origin, funnel, noPathRedirectUrl, yesPathHref }: Gat
         size="lg"
         disabled={!formValid || pending}
         onClick={() => go("yes")}
-        className="w-full bg-prm-coral text-base font-bold hover:bg-prm-coral/90"
+        className="w-full bg-prm-coral text-white text-base font-bold hover:bg-prm-coral/90"
       >
         {pending ? "One moment…" : "Yes — receive my free Transportation Coupon"}
       </Button>

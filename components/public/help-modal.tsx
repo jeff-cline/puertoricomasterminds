@@ -71,7 +71,7 @@ export function HelpModal() {
           </DialogDescription>
         </DialogHeader>
         <div className="mt-4 flex flex-col gap-3">
-          <Button onClick={accept} className="bg-prm-coral text-base font-bold hover:bg-prm-coral/90">
+          <Button onClick={accept} className="bg-prm-coral text-white text-base font-bold hover:bg-prm-coral/90">
             Yes — take the survey
           </Button>
           <button onClick={dismiss} className="text-sm text-muted-foreground underline">

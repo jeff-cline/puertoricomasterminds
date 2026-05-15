@@ -14,7 +14,7 @@ export default async function FeaturedCmsPage() {
           <p className="mt-1 text-muted-foreground">{data?.length ?? 0} featured destinations.</p>
         </div>
         <Link href="/admin/cms/featured/new">
-          <Button className="bg-prm-coral hover:bg-prm-coral/90">New featured destination</Button>
+          <Button className="bg-prm-coral hover:bg-prm-coral/90 text-white">New featured destination</Button>
         </Link>
       </header>
       <div className="overflow-x-auto rounded-xl border bg-white">

@@ -70,7 +70,7 @@ export function RealEstateForm() {
       <Input placeholder="Phone (optional)" value={phone} onChange={(e) => setPhone(e.target.value)} className="bg-white text-secondary" />
       <Textarea placeholder="Tell us more (optional)" value={note} onChange={(e) => setNote(e.target.value)} className="bg-white text-secondary" />
       {error && <p className="text-xs text-destructive">{error}</p>}
-      <Button onClick={submit} disabled={!valid || pending} className="w-full bg-prm-coral hover:bg-prm-coral/90">
+      <Button onClick={submit} disabled={!valid || pending} className="w-full bg-prm-coral hover:bg-prm-coral/90 text-white">
         {pending ? "Sending…" : "Request More Info"}
       </Button>
     </div>

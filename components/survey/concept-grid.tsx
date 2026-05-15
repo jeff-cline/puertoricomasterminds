@@ -53,7 +53,7 @@ export function ConceptGrid({
           you've picked <span className="font-bold text-prm-coral">{picked.length}</span>.
         </p>
         <Button
-          className="mt-3 w-full bg-prm-coral hover:bg-prm-coral/90"
+          className="mt-3 w-full bg-prm-coral hover:bg-prm-coral/90 text-white"
           disabled={!canSubmit}
           onClick={() => { setPending(true); onSubmit(picked); }}
         >

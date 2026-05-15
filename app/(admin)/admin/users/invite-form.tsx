@@ -58,7 +58,7 @@ export function InviteForm() {
           <p className="mt-1 text-xs text-muted-foreground">User will be forced to change on first login.</p>
         </div>
       )}
-      <Button onClick={invite} disabled={!email || !name || pending} className="bg-prm-coral hover:bg-prm-coral/90">
+      <Button onClick={invite} disabled={!email || !name || pending} className="bg-prm-coral hover:bg-prm-coral/90 text-white">
         {pending ? "Inviting…" : "Invite"}
       </Button>
     </div>

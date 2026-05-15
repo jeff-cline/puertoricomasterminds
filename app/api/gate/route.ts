@@ -24,7 +24,15 @@ export async function POST(req: NextRequest) {
     });
     return NextResponse.json({ leadId, couponCode });
   } catch (e) {
-    const message = e instanceof Error ? e.message : "lead create failed";
-    return NextResponse.json({ error: message }, { status: 400 });
+    // Supabase PostgrestError is an object, not an Error instance. Surface
+    // the .message field directly so the client and the server logs both
+    // see the real reason (RLS denial, constraint violation, etc).
+    const err = e as { message?: string; code?: string; details?: string };
+    const message = err?.message || "lead create failed";
+    console.error("[gate] createLead failed:", err);
+    return NextResponse.json(
+      { error: message, code: err?.code, details: err?.details },
+      { status: 400 },
+    );
   }
 }

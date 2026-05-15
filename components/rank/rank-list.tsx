@@ -61,7 +61,7 @@ export function RankList({
           </div>
         </SortableContext>
       </DndContext>
-      <Button onClick={() => onSubmit(ordered.map((x) => x.id))} className="w-full bg-prm-coral hover:bg-prm-coral/90">
+      <Button onClick={() => onSubmit(ordered.map((x) => x.id))} className="w-full bg-prm-coral hover:bg-prm-coral/90 text-white">
         Submit Rankings
       </Button>
     </div>

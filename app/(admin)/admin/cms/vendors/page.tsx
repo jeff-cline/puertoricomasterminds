@@ -14,7 +14,7 @@ export default async function VendorsCmsPage() {
           <p className="mt-1 text-muted-foreground">{data?.length ?? 0} vendors.</p>
         </div>
         <Link href="/admin/cms/vendors/new">
-          <Button className="bg-prm-coral hover:bg-prm-coral/90">New vendor</Button>
+          <Button className="bg-prm-coral hover:bg-prm-coral/90 text-white">New vendor</Button>
         </Link>
       </header>
       <div className="overflow-x-auto rounded-xl border bg-white">

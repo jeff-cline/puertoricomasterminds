@@ -14,7 +14,7 @@ export default async function MastermindsCmsPage() {
           <p className="mt-1 text-muted-foreground">{data?.length ?? 0} masterminds.</p>
         </div>
         <Link href="/admin/cms/masterminds/new">
-          <Button className="bg-prm-coral hover:bg-prm-coral/90">New mastermind</Button>
+          <Button className="bg-prm-coral hover:bg-prm-coral/90 text-white">New mastermind</Button>
         </Link>
       </header>
       <div className="overflow-x-auto rounded-xl border bg-white">

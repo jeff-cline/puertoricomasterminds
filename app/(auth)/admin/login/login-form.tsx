@@ -42,7 +42,7 @@ function LoginFormInner() {
         <Input id="password" type="password" autoComplete="current-password" required value={password} onChange={(e) => setPassword(e.target.value)} />
       </div>
       {error && <p className="text-sm text-destructive">{error}</p>}
-      <Button type="submit" disabled={pending} className="w-full bg-prm-coral hover:bg-prm-coral/90">
+      <Button type="submit" disabled={pending} className="w-full bg-prm-coral hover:bg-prm-coral/90 text-white">
         {pending ? "Signing in…" : "Sign in"}
       </Button>
     </form>

@@ -66,7 +66,7 @@ export function VendorForm({ initial }: { initial: VendorRow | null }) {
         </label>
       </div>
       <div className="flex gap-3 pt-4">
-        <Button onClick={save} disabled={pending} className="bg-prm-coral hover:bg-prm-coral/90">
+        <Button onClick={save} disabled={pending} className="bg-prm-coral hover:bg-prm-coral/90 text-white">
           {pending ? "Saving…" : "Save"}
         </Button>
         {initial?.id && <Button variant="destructive" onClick={del}>Delete</Button>}

@@ -97,7 +97,7 @@ export function ExcursionForm({ initial }: { initial: ExcursionRow | null }) {
         <label className="flex items-center gap-2"><Checkbox checked={f.is_active ?? true} onCheckedChange={(v) => set("is_active", Boolean(v))} /> Active</label>
       </div>
       <div className="flex gap-3 pt-4">
-        <Button onClick={save} disabled={pending} className="bg-prm-coral hover:bg-prm-coral/90">
+        <Button onClick={save} disabled={pending} className="bg-prm-coral hover:bg-prm-coral/90 text-white">
           {pending ? "Saving…" : "Save"}
         </Button>
         {initial?.id && <Button variant="destructive" onClick={del}>Delete</Button>}

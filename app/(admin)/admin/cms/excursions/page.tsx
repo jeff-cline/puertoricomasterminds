@@ -14,7 +14,7 @@ export default async function ExcursionsCmsPage() {
           <p className="mt-1 text-muted-foreground">{data?.length ?? 0} excursions on the public site.</p>
         </div>
         <Link href="/admin/cms/excursions/new">
-          <Button className="bg-prm-coral hover:bg-prm-coral/90">New excursion</Button>
+          <Button className="bg-prm-coral hover:bg-prm-coral/90 text-white">New excursion</Button>
         </Link>
       </header>
       <div className="overflow-x-auto rounded-xl border bg-white">
