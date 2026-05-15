@@ -1,5 +1,5 @@
 // db/seed/excursions.ts
-import { getServiceRoleSupabase } from "@/lib/supabase/admin";
+import { getServiceRoleSupabase } from "./_supabase";
 
 type Row = {
   slug: string;
@@ -72,6 +72,7 @@ export async function seedExcursions() {
   const rows = [...cruiseDay, ...multiDay].map((r) => ({
     ...r,
     is_active: true,
+    is_hero: r.is_hero ?? false,
   }));
 
   // cast to any — stub generated types don't include `excursions` table yet

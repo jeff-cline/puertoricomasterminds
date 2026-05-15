@@ -1,5 +1,5 @@
 // db/seed/masterminds.ts
-import { getServiceRoleSupabase } from "@/lib/supabase/admin";
+import { getServiceRoleSupabase } from "./_supabase";
 
 const img = (id: string) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1200&q=80`;
 

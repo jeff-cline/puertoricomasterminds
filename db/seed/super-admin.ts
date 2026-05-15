@@ -1,5 +1,5 @@
 // db/seed/super-admin.ts
-import { getServiceRoleSupabase } from "@/lib/supabase/admin";
+import { getServiceRoleSupabase } from "./_supabase";
 
 const SEED_EMAIL = "jeff.cline@me.com";
 const SEED_PASSWORD = "TEMP!234";
