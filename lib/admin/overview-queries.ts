@@ -199,14 +199,26 @@ export interface ComingSoonItem {
   total_picks: number;
   first_place_count: number;
   category?: string;
+  image_url?: string;
 }
 
-/** Full leaderboard for coming-soon chart */
+/** Full leaderboard for coming-soon chart, joined with image_url */
 export async function getComingSoonLeaderboard(): Promise<ComingSoonItem[]> {
   const supabase = await getServerSupabase();
-  const { data } = await (supabase as any)
-    .from("v_future_excursion_leaderboard").select("*");
-  return (data ?? []) as ComingSoonItem[];
+  const [boardRes, imgRes] = await Promise.all([
+    (supabase as any).from("v_future_excursion_leaderboard").select("*"),
+    (supabase as any).from("future_excursions").select("id, image_url, category"),
+  ]);
+  const imgs = ((imgRes.data ?? []) as { id: string; image_url: string; category: string | null }[])
+    .reduce<Record<string, { image_url: string; category: string | null }>>((acc, r) => {
+      acc[r.id] = { image_url: r.image_url, category: r.category };
+      return acc;
+    }, {});
+  return ((boardRes.data ?? []) as ComingSoonItem[]).map((row) => ({
+    ...row,
+    image_url: imgs[row.id]?.image_url,
+    category: row.category ?? imgs[row.id]?.category ?? undefined,
+  }));
 }
 
 export interface CruisePaxDonut {
@@ -279,6 +291,7 @@ export interface TrendingExcursion {
   excursion_id: string;
   title: string;
   category: string | null;
+  image_url: string;
   current: number;
   previous: number;
   delta: number;
@@ -307,7 +320,7 @@ export async function getTrendingExcursions(days: number = 30): Promise<Trending
       .lt("created_at", sinceA),
     supabase
       .from("excursions")
-      .select("id, title, category")
+      .select("id, title, category, image_url")
       .eq("is_active", true),
   ]);
 
@@ -320,19 +333,23 @@ export async function getTrendingExcursions(days: number = 30): Promise<Trending
     prevMap[r.entity_id] = (prevMap[r.entity_id] ?? 0) + 1;
   }
 
-  const excursions = (excRes.data ?? []) as { id: string; title: string; category: string | null }[];
+  const excursions = (excRes.data ?? []) as { id: string; title: string; category: string | null; image_url: string }[];
 
-  return excursions
+  // If we have click data, sort by current clicks. Otherwise sort by sort_order proxy
+  // (use the first 10 active excursions) so the empty state still shows thumbnails.
+  const sorted = excursions
     .map((e) => ({
       excursion_id: e.id,
       title: e.title,
       category: e.category,
+      image_url: e.image_url,
       current: curMap[e.id] ?? 0,
       previous: prevMap[e.id] ?? 0,
       delta: (curMap[e.id] ?? 0) - (prevMap[e.id] ?? 0),
     }))
-    .sort((a, b) => b.current - a.current)
-    .slice(0, 10);
+    .sort((a, b) => b.current - a.current);
+
+  return sorted.slice(0, 10);
 }
 
 export interface ActivityItem {

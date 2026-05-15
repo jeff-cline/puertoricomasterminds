@@ -46,7 +46,7 @@ interface TrendingExcursionsProps {
 }
 
 export function TrendingExcursions({ items }: TrendingExcursionsProps) {
-  if (items.length === 0 || items.every((i) => i.current === 0)) {
+  if (items.length === 0) {
     return (
       <div className="flex h-48 items-center justify-center rounded-2xl border bg-white p-6 shadow-sm">
         <div className="text-center">
@@ -59,6 +59,9 @@ export function TrendingExcursions({ items }: TrendingExcursionsProps) {
       </div>
     );
   }
+
+  // If we have entries but no click data yet (e.g. fresh launch), still show
+  // the thumbnail list so the dashboard renders rich — zeros are honest.
 
   const data = items.map((item) => ({
     ...item,
@@ -110,16 +113,25 @@ export function TrendingExcursions({ items }: TrendingExcursionsProps) {
           </BarChart>
         </ResponsiveContainer>
 
-        {/* Delta table */}
+        {/* Delta table with thumbnails */}
         <div className="flex flex-col gap-2 justify-center">
           <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1">
             vs. previous 30 days
           </p>
           {data.map((item, i) => (
-            <div key={i} className="flex items-center justify-between gap-2">
-              <span className="min-w-0 truncate text-sm text-secondary">{item.title}</span>
-              <div className="flex items-center gap-3 shrink-0">
-                <span className="font-mono text-sm text-muted-foreground w-8 text-right">
+            <div key={i} className="flex items-center gap-3">
+              <img
+                src={item.image_url}
+                alt=""
+                width={50}
+                height={50}
+                loading="lazy"
+                className="h-[50px] w-[50px] flex-shrink-0 rounded-md object-cover ring-1 ring-black/5"
+                style={{ borderLeft: `3px solid ${catColor(item.category)}` }}
+              />
+              <span className="min-w-0 flex-1 truncate text-sm text-secondary">{item.title}</span>
+              <div className="flex shrink-0 items-center gap-3">
+                <span className="w-8 text-right font-mono text-sm text-muted-foreground">
                   {item.current}
                 </span>
                 <span className="w-12 text-right">

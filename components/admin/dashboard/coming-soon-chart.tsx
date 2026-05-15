@@ -1,15 +1,5 @@
 "use client";
 
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  Cell,
-  LabelList,
-} from "recharts";
 import type { ComingSoonItem } from "@/lib/admin/overview-queries";
 
 const CATEGORY_COLORS: Record<string, string> = {
@@ -49,76 +39,67 @@ export function ComingSoonChart({ items }: ComingSoonChartProps) {
     );
   }
 
-  const data = items.map((item) => ({
-    title: item.title.length > 28 ? item.title.slice(0, 26) + "…" : item.title,
-    fullTitle: item.title,
-    score: item.borda_score,
-    picks: item.total_picks,
-    first: item.first_place_count,
-    category: item.category,
-  }));
+  const maxScore = Math.max(1, ...items.map((i) => i.borda_score));
 
   return (
     <div className="rounded-2xl border bg-white p-6 shadow-sm">
-      <div className="w-full overflow-x-auto">
-        <ResponsiveContainer width="100%" height={Math.max(300, data.length * 36)}>
-          <BarChart
-            data={data}
-            layout="vertical"
-            margin={{ top: 4, right: 80, left: 8, bottom: 4 }}
-          >
-            <XAxis
-              type="number"
-              tick={{ fontSize: 11, fill: "#6B7280" }}
-              axisLine={false}
-              tickLine={false}
-            />
-            <YAxis
-              type="category"
-              dataKey="title"
-              width={160}
-              tick={{ fontSize: 12, fill: "#0A2540" }}
-              axisLine={false}
-              tickLine={false}
-            />
-            <Tooltip
-              cursor={{ fill: "#f3f4f6" }}
-              content={({ active, payload }) => {
-                if (!active || !payload?.length) return null;
-                const d = payload[0].payload;
-                return (
-                  <div className="rounded-lg border bg-white p-3 shadow-lg text-sm">
-                    <p className="font-semibold text-secondary">{d.fullTitle}</p>
-                    <p className="text-muted-foreground mt-1">Borda score: <b>{d.score}</b></p>
-                    <p className="text-muted-foreground">Total picks: {d.picks}</p>
-                    <p className="text-muted-foreground">#1 votes: {d.first}</p>
-                    {d.category && (
-                      <p className="text-muted-foreground capitalize">Category: {d.category}</p>
-                    )}
-                  </div>
-                );
-              }}
-            />
-            <Bar dataKey="score" radius={[0, 4, 4, 0]} isAnimationActive={false}>
-              {data.map((entry, i) => (
-                <Cell key={i} fill={catColor(entry.category)} />
-              ))}
-              <LabelList
-                dataKey="score"
-                position="right"
-                style={{ fontSize: "12px", fill: "#6B7280", fontWeight: 600 }}
-              />
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
+      <ol className="space-y-2">
+        {items.map((item, idx) => {
+          const color = catColor(item.category);
+          const widthPct = (item.borda_score / maxScore) * 100;
+          return (
+            <li
+              key={item.id}
+              className="group flex items-center gap-3 rounded-lg p-1.5 hover:bg-prm-offwhite transition"
+              title={`${item.title} · Borda ${item.borda_score} · picks ${item.total_picks} · #1 votes ${item.first_place_count}${item.category ? " · " + item.category : ""}`}
+            >
+              <span className="w-6 text-right font-mono text-xs text-muted-foreground">
+                {idx + 1}
+              </span>
+              {item.image_url ? (
+                <img
+                  src={item.image_url}
+                  alt=""
+                  width={50}
+                  height={50}
+                  loading="lazy"
+                  className="h-[50px] w-[50px] flex-shrink-0 rounded-md object-cover ring-1 ring-black/5"
+                  style={{ borderLeft: `3px solid ${color}` }}
+                />
+              ) : (
+                <div
+                  className="h-[50px] w-[50px] flex-shrink-0 rounded-md"
+                  style={{ background: color, opacity: 0.2 }}
+                />
+              )}
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-sm font-medium text-secondary">{item.title}</p>
+                <div className="mt-1 h-2 w-full overflow-hidden rounded-full bg-prm-offwhite">
+                  <div
+                    className="h-full rounded-full"
+                    style={{ width: `${widthPct}%`, background: color }}
+                  />
+                </div>
+              </div>
+              <div className="flex shrink-0 items-center gap-3 text-right">
+                <span className="hidden text-xs text-muted-foreground sm:inline">
+                  {item.total_picks} picks · {item.first_place_count} #1
+                </span>
+                <span className="w-10 text-right font-mono text-sm font-semibold text-secondary">
+                  {item.borda_score}
+                </span>
+              </div>
+            </li>
+          );
+        })}
+      </ol>
 
       {/* Legend */}
-      <div className="mt-4 flex flex-wrap gap-3">
+      <div className="mt-5 flex flex-wrap gap-3 border-t pt-4">
         {Object.entries(CATEGORY_COLORS)
           .filter(([k]) => k !== "default")
           .map(([cat, color]) => (
-            <span key={cat} className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            <span key={cat} className="flex items-center gap-1.5 text-xs capitalize text-muted-foreground">
               <span
                 className="inline-block h-2.5 w-2.5 rounded-full"
                 style={{ background: color }}
