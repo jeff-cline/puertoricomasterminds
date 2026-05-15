@@ -122,3 +122,33 @@ h1, h2, h3, h4, h5 {
 .ticker-track:hover {
   animation-play-state: paused;
 }
+
+/* ─── Animated flame (footer Jeff Cline link) ─── */
+@keyframes prm-flame {
+  0%, 100% {
+    transform: scale(1) rotate(-6deg) translateY(0);
+    filter: drop-shadow(0 0 4px rgba(255, 122, 69, 0.55));
+  }
+  25% {
+    transform: scale(1.18) rotate(4deg) translateY(-2px);
+    filter: drop-shadow(0 0 12px rgba(255, 122, 69, 0.95));
+  }
+  50% {
+    transform: scale(1.08) rotate(-3deg) translateY(0);
+    filter: drop-shadow(0 0 8px rgba(255, 175, 69, 0.85));
+  }
+  75% {
+    transform: scale(1.22) rotate(6deg) translateY(-1px);
+    filter: drop-shadow(0 0 14px rgba(255, 90, 30, 1));
+  }
+}
+
+.prm-flame {
+  display: inline-block;
+  animation: prm-flame 1.6s ease-in-out infinite;
+  transform-origin: center bottom;
+}
+
+.prm-flame:hover {
+  animation-duration: 0.7s;
+}

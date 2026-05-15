@@ -3,6 +3,7 @@ import Link from "next/link";
 import { AffiliateDisclosure } from "./affiliate-disclosure";
 import { ExpediaBanner } from "./expedia-banner";
 import { RealEstateForm } from "./real-estate-form";
+import { PARTNER_LINKS, JEFF_CONTACT, mailtoHref } from "@/lib/partner-mailtos";
 
 export function Footer() {
   return (
@@ -38,6 +39,46 @@ export function Footer() {
           </p>
           <div className="mt-4">
             <RealEstateForm />
+          </div>
+        </div>
+      </div>
+
+      {/* Partner with PRM — mailto-driven lead capture for operators, investors, partners */}
+      <div className="border-t border-secondary-foreground/10">
+        <div className="container mx-auto px-4 py-6">
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+              <span className="text-xs font-semibold uppercase tracking-widest text-prm-teal">
+                Partner with PRM:
+              </span>
+              {PARTNER_LINKS.map((link) => (
+                <a
+                  key={link.label}
+                  href={mailtoHref(link)}
+                  className="text-sm font-medium text-secondary-foreground/90 underline-offset-4 hover:text-prm-coral hover:underline"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+            <div className="flex items-center gap-3 text-sm">
+              <a
+                href={mailtoHref(JEFF_CONTACT)}
+                className="text-secondary-foreground/70 hover:text-white"
+                title="Email Jeff Cline directly"
+              >
+                Powered by <span className="font-semibold text-white">Jeff Cline</span>
+              </a>
+              <a
+                href="https://jeff-cline.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="jeff-cline.com"
+                className="prm-flame inline-block text-xl leading-none"
+              >
+                🔥
+              </a>
+            </div>
           </div>
         </div>
       </div>
